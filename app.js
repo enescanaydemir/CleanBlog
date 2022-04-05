@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
         title: "Blog title",
         description: "Blog description"
     }
-    res.send('Welcome To Home Page');
+    res.send(blog)
 });
 
 const port = 3000;
