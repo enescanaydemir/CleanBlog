@@ -4,6 +4,8 @@ const path = require('path');
 
 const app = express();
 
+const port = 3000;
+
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
@@ -23,7 +25,6 @@ app.get('/post', (req, res) => {
     res.render('post')
 })
 
-const port = 3000;
 
 app.listen(port, () => {
     console.log(`Sunucu ${port} Portunda Başlatıldı...`);
