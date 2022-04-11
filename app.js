@@ -1,19 +1,39 @@
 const express = require('express');
+const mongoose = require('mongoose')
+
 const ejs = require('ejs');
 const path = require('path');
+const Post = require('./models/Post')
 
 const app = express();
 
-const port = 3000;
+// Connect DB
+mongoose.connect('mongodb://localhost/cleanblog-test-db', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
-app.use(express.static('public'))
+// TEMPLATE ENGINE
 app.set('view engine', 'ejs')
 
-app.get('/', (req, res) => {
-    res.render('index')
+
+//MIDDLEWARES
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
+
+app.get('/', async(req, res) => {
+    const post = await Post.find({})
+    res.render('index', {
+        post: post
+    })
 })
-app.get('/index', (req, res) => {
-    res.render('index')
+app.get('/index', async(req, res) => {
+    const post = await Post.find({})
+    res.render('index', {
+        post: post
+    })
 })
 app.get('/about', (req, res) => {
     res.render('about')
@@ -26,6 +46,12 @@ app.get('/post', (req, res) => {
 })
 
 
+app.post('/addPost', async(req, res) => {
+    await Post.create(req.body)
+    res.redirect('/')
+})
+
+const port = 3000;
 app.listen(port, () => {
     console.log(`Sunucu ${port} Portunda Başlatıldı...`);
 });
