@@ -29,12 +29,14 @@ app.get('/', async(req, res) => {
         post: post
     })
 })
-app.get('/index', async(req, res) => {
-    const post = await Post.find({})
-    res.render('index', {
-        post: post
+
+app.get('/post/:id', async(req, res) => {
+    const post = await Post.findById(req.params.id)
+    res.render('post', {
+        post
     })
 })
+
 app.get('/about', (req, res) => {
     res.render('about')
 })
